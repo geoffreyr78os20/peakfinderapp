@@ -1,4 +1,8 @@
 AFRAME.registerComponent('peakfinder', {
+  schema: {
+    scale: { type: 'number' }
+  },
+
   init: function () {
     this.loaded = false;
     window.addEventListener('gps-camera-update-position', e => {
@@ -10,7 +14,8 @@ AFRAME.registerComponent('peakfinder', {
   },
 
   _loadPeaks: function (longitude, latitude) {
-    const scale = 2000;
+    var data = this.data;
+    const scale = data.scale;
     fetch(`https://www.hikar.org/fm/ws/bsvr.php?bbox=${longitude - 0.1},${latitude - 0.1},${longitude + 0.1},${latitude + 0.1}&outProj=4326&format=json&poi=natural`
     )
       .then(response => response.json())
